@@ -9,3 +9,5 @@ class Car(models.Model):
   model_year = models.IntegerField(blank=True, null=True) #can skip some info
   value = models.FloatField(blank=True, null=True) # float number for the model value and can skip some info
   
+  def __str__(self):
+    return self.model #remove the "Car Object()"
