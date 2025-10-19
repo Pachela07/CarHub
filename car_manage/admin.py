@@ -1,7 +1,13 @@
 from django.contrib import admin
 from car_manage.models import Car
+from car_manage.models import Brand
 class CarAdmin(admin.ModelAdmin): #admin based class
   list_display = ('model', 'brand', 'factory_year', 'model_year', 'value') #values that match my db
   search_fields = ('model', 'brand') #search field by model #DONT FORGET THE ","
   
-admin.site.register(Car, CarAdmin) # loads the import from Car class and the model created now
+class BrandAdmin(admin.ModelAdmin):
+  list_display = ('name',) # value that matc my db
+  search_fields = ('name',) #search field by name 
+
+admin.site.register(Brand, BrandAdmin)  # Loads the impor from Brand class 
+admin.site.register(Car, CarAdmin) # loads the import from Car class 
