@@ -6,8 +6,9 @@ class CarAdmin(admin.ModelAdmin): #admin based class
   search_fields = ('model', 'brand') #search field by model #DONT FORGET THE ","
   
 class BrandAdmin(admin.ModelAdmin):
-  list_display = ('name',) # value that matc my db
+  list_display = ('name',) # value that match my db
   search_fields = ('name',) #search field by name 
+  
 
-admin.site.register(Brand, BrandAdmin)  # Loads the impor from Brand class 
+admin.site.register(Brand, BrandAdmin)  # Loads the import from Brand class 
 admin.site.register(Car, CarAdmin) # loads the import from Car class 
