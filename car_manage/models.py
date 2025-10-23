@@ -1,13 +1,12 @@
 from django.db import models
-
-
+  
 class Brand(models.Model):
   
-  id = models.AutoField(primary_key= True) #unic ID 
+  id = models.AutoField(primary_key= True) #Unic ID 
   name = models.CharField(max_length=50) 
   
   def __str__(self):
-   return self.name  # must match the same name given or else nothing works - make thins more user friendly
+    return self.name  # must match the same name given or else nothing works - make thins more user friendly
 
 class Car(models.Model):
   
@@ -17,7 +16,7 @@ class Car(models.Model):
   plate = models.CharField(max_length=20, blank=True, null= True)
   factory_year = models.IntegerField(blank=True, null=True) #can skip some info
   model_year = models.IntegerField(blank=True, null=True) #can skip some info
-  value = models.FloatField(blank=True, null=True) # float number for the model value and can skip some info
+  value = models.DecimalField(max_digits=100, decimal_places=0) # changed to decimal value, to look better and can skip some info
   
   ''' This part of the code will save the img path for the image files '''
   

@@ -1,0 +1,236 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AutoMarket — Find Your Next Car</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    /* Simple hero background */
+    .hero {
+      background-image: url('https://images.unsplash.com/photo-1526726538690-5cbf956ae2fd?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170');
+      background-size: cover;
+      background-position: center;
+      color: #fff;
+    }
+    .hero-overlay {
+      background: rgba(0,0,0,0.5);
+    }
+    .card-img-top {
+      height: 160px;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">AutoMarket</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navMain">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#inventory">Inventory</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        </ul>
+
+        <form class="d-flex" role="search" onsubmit="return false;">
+          <input id="searchInput" class="form-control me-2" type="search" placeholder="Search make, model, year" aria-label="Search">
+          <button id="clearSearch" class="btn btn-outline-light ms-1" title="Clear">Clear</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero py-5">
+    <div class="hero-overlay py-5">
+      <div class="container text-center py-5">
+        <h1 class="display-5 fw-bold">Find Your Dream Car</h1>
+        <p class="lead mb-4">Browse thousands of hand-picked vehicles. Fast financing, certified inspections, and nationwide shipping.</p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+          <a href="#inventory" class="btn btn-primary btn-lg px-4 me-sm-3">Browse Inventory</a>
+          <a href="#contact" class="btn btn-outline-light btn-lg px-4">Get a Quote</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Features -->
+  <section class="py-5 bg-light">
+    <div class="container">
+      <div class="row g-4 text-center">
+        <div class="col-md-4">
+          <div class="p-3">
+            <h5>Certified Inspection</h5>
+            <p class="mb-0 text-muted">Every car passes a multi-point inspection by our experts.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="p-3">
+            <h5>Easy Financing</h5>
+            <p class="mb-0 text-muted">Flexible payment plans to fit your budget.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="p-3">
+            <h5>Nationwide Delivery</h5>
+            <p class="mb-0 text-muted">Door-to-door delivery available across the country.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Inventory / Cards -->
+  <section id="inventory" class="py-5">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="h4 mb-0">Featured Inventory</h2>
+        <small class="text-muted">Showing latest additions</small>
+      </div>
+
+      <!-- Dynamic content from Django -->
+      {% block content %}
+      <div id="cardsRow" class="row g-4">
+        {% for cars in db_cars %}
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <article class="card h-100 shadow-sm car-card" data-keywords=" {{ cars.model }} {{ cars.factory_year }}" data-price="{{ cars.value }}">
+              <div class="position-relative">
+                <img src="{{ cars.photo.url |default:'https://source.unsplash.com/800x600/?car' }}" class="card-img-top" alt="{{ cars.model }}" loading="lazy" style="height:180px; object-fit:cover;">
+                <span class="badge bg-primary position-absolute" style="top:10px; right:10px;">{{ cars.value }}€</span>
+              </div>
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title mb-1"> {{ cars.model }}</h5>
+                <p class="text-muted mb-2 small">{{ cars.factory_year }} · {{ cars.plate|default:'N/A' }}</p>
+                <p class="mb-3 small text-muted">{{ cars.description|default:''|truncatechars:80 }}</p>
+                <div class="mt-auto d-flex justify-content-between align-items-center">
+                  <button class="btn btn-sm btn-primary view-details"
+                          data-title="{{ cars.model }}"
+                          data-img="{{ cars.photo.url|default:'https://source.unsplash.com/1200x800/?car' }}"
+                          data-desc="{{ cars.model|default:'No description available'|escape }}">
+                    View
+                  </button>
+                  <a href="#contact" class="btn btn-sm btn-outline-secondary">Contact</a>
+                </div>
+              </div>
+            </article>
+          </div>
+        {% endfor %}
+      </div>
+      {% endblock  %}
+      <!-- Dynamic content from Django -->
+    </div>
+  </section>
+
+  <!-- Contact / Quote -->
+  <section id="contact" class="py-5 bg-light">
+    <div class="container">
+      <h3 class="mb-3">Get a Quote</h3>
+      <form id="contactForm" class="row g-3">
+        <div class="col-md-4">
+          <input type="text" class="form-control" id="name" placeholder="Your name" required>
+        </div>
+        <div class="col-md-4">
+          <input type="email" class="form-control" id="email" placeholder="Email" required>
+        </div>
+        <div class="col-md-4">
+          <input type="tel" class="form-control" id="phone" placeholder="Phone">
+        </div>
+        <div class="col-12">
+          <textarea class="form-control" id="message" rows="3" placeholder="Tell us what you're looking for"></textarea>
+        </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary">Request Quote</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-4 bg-dark text-white">
+    <div class="container d-flex justify-content-between">
+      <small>© AutoMarket 2025</small>
+      <small>Support: support@automarket.example</small>
+    </div>
+  </footer>
+
+  <!-- Modal: car details -->
+  <div class="modal fade" id="carModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="carModalTitle">Car Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <img id="carModalImg" src="" alt="" class="img-fluid mb-3 w-100" style="max-height:420px; object-fit:cover;">
+          <p id="carModalDesc" class="mb-0"></p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+          <a href="#contact" class="btn btn-primary">Contact Seller</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Search/filter logic
+    const searchInput = document.getElementById('searchInput');
+    const clearBtn = document.getElementById('clearSearch');
+    const cards = Array.from(document.querySelectorAll('.car-card'));
+
+    function filterCards() {
+      const q = searchInput.value.trim().toLowerCase();
+      cards.forEach(card => {
+        const keywords = card.dataset.keywords || '';
+        const matches = keywords.toLowerCase().includes(q) || q === '';
+        card.style.display = matches ? '' : 'none';
+      });
+    }
+
+    searchInput.addEventListener('input', filterCards);
+    clearBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      searchInput.value = '';
+      filterCards();
+    });
+
+    // Modal population for "View Details" buttons
+    const carModal = new bootstrap.Modal(document.getElementById('carModal'));
+    document.querySelectorAll('.view-details').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const title = btn.dataset.title || 'Car';
+        const img = btn.dataset.img || '';
+        const desc = btn.dataset.desc || '';
+        document.getElementById('carModalTitle').textContent = title;
+        document.getElementById('carModalImg').src = img;
+        document.getElementById('carModalImg').alt = title;
+        document.getElementById('carModalDesc').textContent = desc;
+        carModal.show();
+      });
+    });
+
+    // Simple contact form submission (demo)
+    document.getElementById('contactForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value || 'Customer';
+      alert('Thanks ' + name + '! We received your request and will contact you soon.');
+      e.target.reset();
+    });
+  </script>
+</body>
+</html></div>

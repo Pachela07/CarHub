@@ -1,6 +1,5 @@
 from django.contrib import admin
-from car_manage.models import Car
-from car_manage.models import Brand
+from car_manage.models import Car, Brand
 class CarAdmin(admin.ModelAdmin): #admin based class
   list_display = ('model', 'brand', 'factory_year', 'model_year', 'value') #values that match my db
   search_fields = ('model', 'brand') #search field by model #DONT FORGET THE ","
