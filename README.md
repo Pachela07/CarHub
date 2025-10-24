@@ -1,60 +1,77 @@
 # Car Manage (WIP)
 
-This is a small Django project to manage cars (models, brands, years, value). The main app is `car_manage`. The project is under active development.
+A Django project for managing cars, including models, brands, years, and values.  
+**Status:** Work in progress — not production ready.
 
-Latest updates (2025-10-22)
+## Latest Updates (2025-10-22)
 
 - Project scaffold completed.
 - Initial `Car` model and migration created.
-- README updated with quick-start instructions and next steps.
+- Updated routes: `index` view now uses `car_view` in `app/urls.py`.
+- `index.html` replaced with new `cars.html` content; improved car listing and UI.
+- In `car_manage/views.py`:
+  - `car_view` now renders `index.html`.
+  - Old `index` function renamed to `skeleton`.
+  - Removed usage of `cars.html`.
 
-Status
+## Project Structure
 
-- Work in progress — not production ready.
-- Tests and full CRUD views/templates/API are not implemented yet.
+- **Entry point:** `manage.py`
+- **Project settings:** `app/settings.py`
+- **URL configuration:** `app/urls.py`
+- **App:** `car_manage/`
+  - **Models:** `car_manage/models.py`
+  - **Views:** `car_manage/views.py`
+  - **Templates:**
+    - `car_manage/templates/index.html` (main car listing UI)
+    - `car_manage/templates/cars.html` (no longer in use)
+  - **Admin:** `car_manage/admin.py`
+  - **Migrations:** `car_manage/migrations/0001_initial.py`
 
-Key files
+## Quick Start (Windows)
 
-- Entry point: `manage.py`
-- Project settings: `app/settings.py`
-- URL config: `app/urls.py`
-- App: `car_manage/`
-  - Models: `car_manage/models.py`
-  - Admin: `car_manage/admin.py`
-  - Migrations: `car_manage/migrations/0001_initial.py`
+1. **Create and activate a virtual environment:**
 
-Quick start (Windows)
-
-1. Create and activate virtual environment:
    python -m venv .venv
    .venv\Scripts\activate
 
-2. Install dependencies:
-   pip install -r requirements.txt
-   (or `pip install django` if requirements.txt is missing)
+2. **Install dependencies:**
 
-3. Apply migrations:
+   pip install -r requirements.txt
+
+   - If `requirements.txt` is missing:
+
+     pip install django
+
+3. **Apply migrations:**
+
    python manage.py makemigrations
    python manage.py migrate
 
-4. (Optional) Create superuser:
+4. **(Optional) Create a superuser:**
+
    python manage.py createsuperuser
 
-5. Run development server:
+5. **Run the development server:**
+
    python manage.py runserver
 
-Notes and next steps
+## Next Steps
 
-- Add views, templates, and API endpoints for CRUD operations in `car_manage/views.py`.
-- Register `Car` in admin (`car_manage/admin.py`) if not already registered.
-- Add unit tests in `car_manage/tests.py`.
-- Move secrets out of source control and set DEBUG = False for production in `app/settings.py`.
+- Implement CRUD views, templates, and API endpoints in `car_manage/views.py`.
+- Ensure the `Car` model is registered in the admin interface (`car_manage/admin.py`).
+- Add unit tests to `car_manage/tests.py`.
+- Move secrets out of source control and set `DEBUG = False` for production in `app/settings.py`.
 - Consider adding CI, linting, and a requirements lock file.
 
-Contributing
+## Contributing
 
-- Create feature branches, open PRs, and include tests for new behavior.
+- Use feature branches and open pull requests.
+- Include tests for all new behavior.
 
-Contact / author
+## Contact
 
-- Project scaffolded with Django. Use `python manage.py help` for available commands.
+- Scaffolded with Django.
+- For available commands, run:
+
+  python manage.py help
