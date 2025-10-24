@@ -1,6 +1,5 @@
 # Car Manage (WIP)
 
-Short description
 This is a small Django project to manage cars (models, brands, years, value). The main app is `car_manage`. The project is under active development.
 
 Latest updates (2025-10-22)
