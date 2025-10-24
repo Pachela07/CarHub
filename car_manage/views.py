@@ -4,12 +4,12 @@ from car_manage.models import Car # Use the ORM from Django to access the DB via
 ############### USER VIEW - ###################
 
 def car_view(request):
-# search = request.GET.get('search')
   db_cars = Car.objects.all() # Get all the info from the db cars
+  search = request.GET.get('search') # custom search via url
   
-# filtered_cars = Car.objects.filter(brand__name = 'example') # Filter by a specific value withou using the ID
-# filtered_cars = Car.objects.filter(model__contains = 'search') # Filter by a specific string
-  
+  #if is being user, show specific model. Else render all cars
+  if search:
+    db_cars = db_cars.filter(model__contains = search)
   
   
   return render(
