@@ -7,6 +7,8 @@ def car_view(request):
   
   db_cars = Car.objects.all() # get all the info from the db cars
   
+# filtered_cars = Car.objects.filter(brand__name = '') # Filter by a specific value withou using the ID
+  
   
   
   return render(
