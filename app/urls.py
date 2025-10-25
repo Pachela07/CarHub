@@ -6,7 +6,7 @@ from django.urls import path
 from django.conf import settings
 # Helper to serve static/media files during development
 from django.conf.urls.static import static
-from car_manage.views import car_view # import from the view file
+from car_manage.views import car_view, new_car_view # import from the view file
 
 
 
@@ -16,5 +16,6 @@ from car_manage.views import car_view # import from the view file
 urlpatterns = [
     path('admin/', admin.site.urls), #Admin page
     path('index/', car_view), #Car view, can add custom name with the "name"
+    path('new_car/', new_car_view, name="new_car"),  #New Car view, form to add a new car to the page 
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT) # Admin route and media content 
 

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Add New Car — AutoMarket</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .hero {
+        background-image: url("https://images.unsplash.com/photo-1526726538690-5cbf956ae2fd?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170");
+        background-size: cover;
+        background-position: center;
+        color: #fff;
+      }
+      .hero-overlay {
+        background: rgba(0, 0, 0, 0.5);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">AutoMarket</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navMain"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navMain">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="/#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/#inventory">Inventory</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/#contact">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="/#">Add Car</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="hero py-4 mb-4">
+      <div class="hero-overlay py-4">
+        <div class="container text-center py-3">
+          <h1 class="display-6 fw-bold">Add a New Car to Inventory</h1>
+          <p class="lead mb-0">Submit details for a new vehicle listing.</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- New Car Form -->
+    <section class="py-5 bg-light">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-7 col-md-9">
+            <div class="card shadow-sm">
+              <div class="card-body">
+                <h3 class="card-title mb-4 text-center">Car Details</h3>
+                <form
+                  method="POST"
+                  enctype="multipart/form-data"
+                  autocomplete="off"
+                >
+                  {% csrf_token %}
+                  <div class="mb-3">
+                    <label for="model" class="form-label"
+                      >Model <span class="text-danger">*</span></label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="model"
+                      name="model"
+                      required
+                      placeholder="e.g. Audi A4"
+                    />
+                  </div>
+                  <div class="row">
+                    <div class="mb-3 col-md-6">
+                      <label for="factory_year" class="form-label"
+                        >Year <span class="text-danger">*</span></label
+                      >
+                      <input
+                        type="number"
+                        min="1900"
+                        max="2100"
+                        class="form-control"
+                        id="factory_year"
+                        name="factory_year"
+                        required
+                        placeholder="e.g. 2021"
+                      />
+                    </div>
+                    <div class="mb-3 col-md-6">
+                      <label for="plate" class="form-label"
+                        >License Plate</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="plate"
+                        name="plate"
+                        placeholder="e.g. ABC-1234"
+                      />
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="value" class="form-label"
+                      >Price (€) <span class="text-danger">*</span></label
+                    >
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="value"
+                      name="value"
+                      required
+                      min="1"
+                      step="1"
+                      placeholder="e.g. 18000"
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="description" class="form-label"
+                      >Description</label
+                    >
+                    <textarea
+                      class="form-control"
+                      id="description"
+                      name="description"
+                      rows="3"
+                      maxlength="400"
+                      placeholder="Describe the car, features, condition, etc."
+                    ></textarea>
+                  </div>
+                  <div class="mb-3">
+                    <label for="photo" class="form-label"
+                      >Photo <span class="text-danger">*</span></label
+                    >
+                    <input
+                      class="form-control"
+                      type="file"
+                      id="photo"
+                      name="photo"
+                      accept="image/*"
+                      required
+                    />
+                  </div>
+                  <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                      Add Car
+                    </button>
+                    <a href="/" class="btn btn-outline-secondary">Cancel</a>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-4 bg-dark text-white mt-5">
+      <div class="container d-flex justify-content-between">
+        <small>© AutoMarket 2025</small>
+        <small>Support: support@automarket.example</small>
+      </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

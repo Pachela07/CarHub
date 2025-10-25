@@ -17,6 +17,12 @@ def car_view(request):
     'index.html',
     {'db_cars' : db_cars} 
     ) # use the default request and the template page you want to get
+  
+def new_car_view(request):
+    return render(
+    request,
+    'new_car.html')
+    # if you forget the render the PATH will overload
 
 
 def skeleton(request):
