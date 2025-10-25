@@ -16,17 +16,20 @@ A Django project for managing cars, including models, brands, years, and values.
 
 ## Project Structure
 
-- **Entry point:** `manage.py`
-- **Project settings:** `app/settings.py`
-- **URL configuration:** `app/urls.py`
-- **App:** `car_manage/`
-  - **Models:** `car_manage/models.py`
-  - **Views:** `car_manage/views.py`
-  - **Templates:**
-    - `car_manage/templates/index.html` (main car listing UI)
-    - `car_manage/templates/cars.html` (no longer in use)
-  - **Admin:** `car_manage/admin.py`
-  - **Migrations:** `car_manage/migrations/0001_initial.py`
+.
+├── manage.py
+├── app/
+│ ├── settings.py
+│ └── urls.py
+└── car_manage/
+├── models.py
+├── views.py
+├── admin.py
+├── migrations/
+│ └── 0001_initial.py
+└── templates/
+├── index.html # Main car listing UI
+└── cars.html # (No longer in use)
 
 ## Quick Start (Windows)
 
@@ -59,19 +62,19 @@ A Django project for managing cars, including models, brands, years, and values.
 ## Next Steps
 
 - Implement CRUD views, templates, and API endpoints in `car_manage/views.py`.
-- Ensure the `Car` model is registered in the admin interface (`car_manage/admin.py`).
-- Add unit tests to `car_manage/tests.py`.
+- Register the `Car` model in the admin interface (`car_manage/admin.py`).
+- Add unit tests in `car_manage/tests.py`.
 - Move secrets out of source control and set `DEBUG = False` for production in `app/settings.py`.
-- Consider adding CI, linting, and a requirements lock file.
+- Consider adding CI, code linting, and a requirements lock file.
 
 ## Contributing
 
-- Use feature branches and open pull requests.
+- Use feature branches and open pull requests for new features or fixes.
 - Include tests for all new behavior.
 
-## Contact
+## Contact & Help
 
-- Scaffolded with Django.
+- Built with Django.
 - For available commands, run:
 
   python manage.py help
