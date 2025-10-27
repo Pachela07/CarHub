@@ -18,13 +18,15 @@ def car_view(request):
     {'db_cars' : db_cars} 
     ) # use the default request and the template page you want to get
   
+############### USER VIEW// RETURN THE CONTENT - ###################
+  
 def new_car_view(request):
     return render(
     request,
     'new_car.html')
     # if you forget the render the PATH will overload
 
-
+################# DUMMY/TESTS ##################  
 def skeleton(request):
   return render(
     request,

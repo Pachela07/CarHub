@@ -1,34 +1,48 @@
-<!-- The default template 
-##{{% extends "skeleton.html" % }} if needed for other pages  
--->
-
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>{% block title %}Project Title{% endblock %}</title>
+    <title>
+      {% block title %}AutoMarket — Find Your Next Car{% endblock %}
+    </title>
     <meta
       name="description"
-      content="{% block meta_description %}Short description here{% endblock %}"
+      content="{% block meta_description %}Browse thousands of vehicles. Fast financing, certified inspections, and nationwide delivery.{% endblock %}"
     />
     <!-- Bootstrap (CDN) -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <!-- Project CSS: override with your static file -->
+    <!-- Project CSS -->
     <link href="{% static 'css/site.css' %}" rel="stylesheet" />
-    {% block extra_head %}{% endblock %}
 
-    <!-- Helpful note: enable 'django.template.context_processors.request' to use 'request' here -->
+    <!-- Base styles used across pages (can be overridden in extra_head) -->
+    <style>
+      .hero {
+        background-image: url("https://images.unsplash.com/photo-1526726538690-5cbf956ae2fd?ixlib=rb-4.1.0&auto=format&fit=crop&q=80&w=1170");
+        background-size: cover;
+        background-position: center;
+        color: #fff;
+      }
+      .hero-overlay {
+        background: rgba(0, 0, 0, 0.5);
+      }
+      .card-img-top {
+        height: 160px;
+        object-fit: cover;
+      }
+    </style>
+
+    {% block extra_head %}{% endblock %}
   </head>
   <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
       <div class="container">
-        <a class="navbar-brand" href="{% url 'home' %}">Brand</a>
+        <a class="navbar-brand" href="{% url 'index' %}">AutoMarket</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -42,54 +56,85 @@
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
               <a
-                class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}"
-                href="{% url 'home' %}"
+                class="nav-link {% if request.resolver_match.url_name == 'index' %}active{% endif %}"
+                href="{% url 'index' %}"
                 >Home</a
               >
             </li>
             <li class="nav-item">
-              <a
-                class="nav-link {% if request.resolver_match.url_name == 'list' %}active{% endif %}"
-                href="{% url 'list' %}"
-                >List</a
+              <a class="nav-link" href="{% url 'index' %}#inventory"
+                >Inventory</a
               >
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+              <a class="nav-link" href="{% url 'index' %}#contact">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link {% if request.resolver_match.url_name == 'new_car' %}active{% endif %}"
+                href="{% url 'new_car' %}"
+                >Add Car</a
+              >
             </li>
           </ul>
 
-          <form class="d-flex" method="get" action="{% url 'list' %}">
+          <!-- Navbar search (works client-side and can submit to server filtering) -->
+          <form class="d-flex" method="get" action="{% url 'index' %}">
             <input
-              name="q"
+              id="searchInput"
+              name="search"
               class="form-control me-2"
               type="search"
-              placeholder="Search"
-              value="{{ request.GET.q|default:'' }}"
+              placeholder="Search make, model, year"
+              aria-label="Search"
+              value="{{ request.GET.search|default:'' }}"
             />
-            <button class="btn btn-outline-light" type="submit">Search</button>
+            <button
+              id="clearSearch"
+              class="btn btn-outline-light ms-1"
+              type="button"
+              title="Clear"
+            >
+              Clear
+            </button>
           </form>
         </div>
       </div>
     </nav>
 
-    <!-- Optional hero section -->
+    <!-- Hero section (override per page if needed) -->
     {% block hero %}
-    <header class="bg-primary text-white py-5 mb-4">
-      <div class="container">
-        <h1 class="display-5">{% block hero_title %}Welcome{% endblock %}</h1>
-        <p class="lead mb-0">
-          {% block hero_subtitle %}A short tagline describing the page or
-          project.{% endblock %}
-        </p>
+    <header class="hero py-5">
+      <div class="hero-overlay py-5">
+        <div class="container text-center py-5">
+          <h1 class="display-5 fw-bold">
+            {% block hero_title %}Find Your Dream Car{% endblock %}
+          </h1>
+          <p class="lead mb-4">
+            {% block hero_subtitle %}Browse thousands of hand-picked vehicles.
+            Fast financing, certified inspections, and nationwide shipping.{% endblock %}
+          </p>
+          <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <a
+              href="{% url 'index' %}#inventory"
+              class="btn btn-primary btn-lg px-4 me-sm-3"
+              >Browse Inventory</a
+            >
+            <a
+              href="{% url 'index' %}#contact"
+              class="btn btn-outline-light btn-lg px-4"
+              >Get a Quote</a
+            >
+          </div>
+        </div>
       </div>
     </header>
     {% endblock %}
 
-    <main class="container mb-5">
+    <main class="mb-5">
       <!-- Messages (requires messages context) -->
       {% if messages %}
-      <div class="mt-3">
+      <div class="container mt-3">
         {% for message in messages %}
         <div
           class="alert alert-{{ message.tags }} alert-dismissible fade show"
@@ -107,22 +152,18 @@
       </div>
       {% endif %}
 
-      <!-- Page content -->
-      {% block content %}
-      <div class="text-center py-5">
-        <h2>Page content goes here</h2>
-        <p class="text-muted">Replace this with your view-specific markup.</p>
-      </div>
-      {% endblock %}
+      <!-- Page-specific content -->
+      {% block content %}{% endblock %}
     </main>
 
     <!-- Footer -->
     <footer class="py-4 bg-dark text-white mt-auto">
       <div class="container d-flex justify-content-between">
-        <small>© {{ now|date:"Y" }} Your Company</small>
+        <small>© {% now "Y" %} AutoMarket</small>
         <small
-          ><a class="text-white" href="mailto:support@example.com"
-            >support@example.com</a
+          >Support:
+          <a class="text-white" href="mailto:support@automarket.example"
+            >support@automarket.example</a
           ></small
         >
       </div>
@@ -131,6 +172,76 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    {% block extra_js %}{% endblock %}
+    {% block extra_js %}
+    <script>
+      // Client-side search/filter (safe on pages without cards)
+      (function () {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.getElementById("clearSearch");
+        const cards = Array.from(document.querySelectorAll(".car-card"));
+
+        function filterCards() {
+          if (!cards.length) return;
+          const q = (searchInput?.value || "").trim().toLowerCase();
+          cards.forEach((card) => {
+            const keywords = (card.dataset.keywords || "").toLowerCase();
+            const matches = keywords.includes(q) || q === "";
+            card.style.display = matches ? "" : "none";
+          });
+        }
+
+        if (searchInput) {
+          searchInput.addEventListener("input", filterCards);
+        }
+        if (clearBtn && searchInput) {
+          clearBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            searchInput.value = "";
+            filterCards();
+          });
+        }
+      })();
+
+      // Modal population for "View Details" buttons (guard if modal not present)
+      (function () {
+        const modalEl = document.getElementById("carModal");
+        if (!modalEl) return;
+        const carModal = new bootstrap.Modal(modalEl);
+        document.querySelectorAll(".view-details").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const title = btn.dataset.title || "Car";
+            const img = btn.dataset.img || "";
+            const desc = btn.dataset.desc || "";
+            const titleEl = document.getElementById("carModalTitle");
+            const imgEl = document.getElementById("carModalImg");
+            const descEl = document.getElementById("carModalDesc");
+            if (titleEl) titleEl.textContent = title;
+            if (imgEl) {
+              imgEl.src = img;
+              imgEl.alt = title;
+            }
+            if (descEl) descEl.textContent = desc;
+            carModal.show();
+          });
+        });
+      })();
+
+      // Simple contact form submission (demo; guard for non-index pages)
+      (function () {
+        const form = document.getElementById("contactForm");
+        if (!form) return;
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const name = document.getElementById("name")?.value || "Customer";
+          alert(
+            "Thanks " +
+              name +
+              "! We received your request and will contact you soon."
+          );
+          form.reset();
+        });
+      })();
+    </script>
+    {% endblock %}
   </body>
 </html>

@@ -3,16 +3,19 @@
 A Django project for managing cars, including models, brands, years, and values.  
 **Status:** Work in progress — not production ready.
 
-## Latest Updates (2025-10-22)
+## Latest Updates (2025-10-27)
 
-- Project scaffold completed.
-- Initial `Car` model and migration created.
-- Updated routes: `index` view now uses `car_view` in `app/urls.py`.
-- `index.html` replaced with new `cars.html` content; improved car listing and UI.
-- In `car_manage/views.py`:
-  - `car_view` now renders `index.html`.
-  - Old `index` function renamed to `skeleton`.
-  - Removed usage of `cars.html`.
+- Introduced base template [skeleton.html](app/templates/skeleton.html) with:
+  - Navbar wired to `{% url 'index' %}` and `{% url 'new_car' %}`, search box using GET param `search`.
+  - Shared hero with blocks `hero_title` and `hero_subtitle`, site footer, Bootstrap, and static CSS.
+  - Safe JS helpers for card filtering, modal population, and contact form.
+- Refactored pages to extend the base:
+  - [index.html](car_manage/templates/index.html) extends the base and contains only page sections (features, inventory grid, contact form, details modal).
+  - [new_car.html](car_manage/templates/new_car.html) extends the base, sets custom hero text, and includes the add-car form.
+- Fixed template errors by:
+  - Adding `{% block hero %}` around the hero section and ensuring proper `{% endblock %}` placement in the base.
+  - Normalizing block tags in `new_car.html` to avoid “Invalid block tag” and “Unclosed tag” errors.
+- No database or URL name changes; existing names `index` and `new_car` remain. The search GET param is `search` and is consumed in [car_view()](car_manage/views.py:6).
 
 ## Project Structure
 
@@ -20,16 +23,17 @@ A Django project for managing cars, including models, brands, years, and values.
 ├── manage.py
 ├── app/
 │ ├── settings.py
-│ └── urls.py
+│ ├── urls.py
+│ └── templates/
+│ └── skeleton.html # Base template
 └── car_manage/
 ├── models.py
 ├── views.py
 ├── admin.py
 ├── migrations/
-│ └── 0001_initial.py
 └── templates/
-├── index.html # Main car listing UI
-└── cars.html # (No longer in use)
+├── index.html # Extends skeleton.html
+└── new_car.html # Extends skeleton.html
 
 ## Quick Start (Windows)
 
