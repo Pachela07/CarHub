@@ -1,7 +1,4 @@
-{% extends "skeleton.html" %}
-{% block title %}Add New Car — AutoMarket{% endblock %}
-{% block hero_title %}Add a New Car to Inventory{% endblock %}
-{% block hero_subtitle %}Submit details for a new vehicle listing.{% endblock %}
+{% extends "skeleton.html" %} {% block title %}AutoMarket — Contact{% endblock%}
 {% block content %}
 <section class="py-5 bg-light">
   <div class="container">
@@ -9,110 +6,60 @@
       <div class="col-lg-7 col-md-9">
         <div class="card shadow-sm">
           <div class="card-body">
-            <h3 class="card-title mb-4 text-center">Car Details</h3>
-            <form
-              method="POST"
-              enctype="multipart/form-data"
-              autocomplete="off"
-            >
-              {% csrf_token %}
-              <div class="mb-3">
-                <label for="model" class="form-label"
-                  >Model <span class="text-danger">*</span></label
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  id="model"
-                  name="model"
-                  required
-                  placeholder="e.g. Audi A4"
-                />
-              </div>
+            <h3 class="card-title mb-4 text-center">Contact Us</h3>
 
-              <div class="row">
-                <div class="mb-3 col-md-6">
-                  <label for="factory_year" class="form-label"
-                    >Year <span class="text-danger">*</span></label
+            {% if new_form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+              {{ new_form.non_field_errors }}
+            </div>
+            {% endif %}
+
+            <div class="contact_form">
+              <form
+                action=""
+                method="post"
+                enctype="multipart/form-data"
+                novalidate
+              >
+                {% csrf_token %} {% for field in new_form %}
+                <div class="mb-3">
+                  <label for="{{ field.id_for_label }}" class="form-label"
+                    >{{ field.label }}</label
                   >
-                  <input
-                    type="number"
-                    min="1900"
-                    max="2100"
-                    class="form-control"
-                    id="factory_year"
-                    name="factory_year"
-                    required
-                    placeholder="e.g. 2021"
-                  />
+                  {{ field }} {% if field.help_text %}
+                  <div class="form-text">{{ field.help_text }}</div>
+                  {% endif %} {% for error in field.errors %}
+                  <div class="invalid-feedback d-block">{{ error }}</div>
+                  {% endfor %}
                 </div>
-                <div class="mb-3 col-md-6">
-                  <label for="plate" class="form-label">License Plate</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="plate"
-                    name="plate"
-                    placeholder="e.g. ABC-1234"
-                  />
+                {% endfor %}
+                <div class="d-grid gap-2">
+                  <button type="submit" class="btn btn-primary btn-lg">
+                    Send
+                  </button>
                 </div>
-              </div>
-
-              <div class="mb-3">
-                <label for="value" class="form-label"
-                  >Price (€) <span class="text-danger">*</span></label
-                >
-                <input
-                  type="number"
-                  class="form-control"
-                  id="value"
-                  name="value"
-                  required
-                  min="1"
-                  step="1"
-                  placeholder="e.g. 18000"
-                />
-              </div>
-
-              <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea
-                  class="form-control"
-                  id="description"
-                  name="description"
-                  rows="3"
-                  maxlength="400"
-                  placeholder="Describe the car, features, condition, etc."
-                ></textarea>
-              </div>
-
-              <div class="mb-3">
-                <label for="photo" class="form-label"
-                  >Photo <span class="text-danger">*</span></label
-                >
-                <input
-                  class="form-control"
-                  type="file"
-                  id="photo"
-                  name="photo"
-                  accept="image/*"
-                  required
-                />
-              </div>
-
-              <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-primary btn-lg">
-                  Add Car
-                </button>
-                <a href="{% url 'index' %}" class="btn btn-outline-secondary"
-                  >Cancel</a
-                >
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+{% endblock %} {% block extra_js %}
+<script>
+  // Add Bootstrap form-control/form-select classes to auto-rendered widgets
+  (function () {
+    document
+      .querySelectorAll(
+        ".contact_form input[type='text'], .contact_form input[type='email'], .contact_form input[type='number'], .contact_form input[type='file'], .contact_form textarea"
+      )
+      .forEach(function (el) {
+        el.classList.add("form-control");
+      });
+    document.querySelectorAll(".contact_form select").forEach(function (el) {
+      el.classList.add("form-select");
+    });
+  })();
+</script>
 {% endblock %}

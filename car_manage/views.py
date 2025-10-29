@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from car_manage.models import Car # Use the ORM from Django to access the DB via class
+from car_manage.forms import CarForm # Import the predefined form
 
 ############### USER VIEW - ###################
 
@@ -25,6 +26,11 @@ def new_car_view(request):
     request,
     'new_car.html')
     # if you forget the render the PATH will overload
+    
+def add_new_car(request):
+  new_form = CarForm()
+  return render(request, 'new_car.html', # Renders the page
+              { 'new_form' : new_form}) # Loads the form with empty details
 
 ################# DUMMY/TESTS ##################  
 def skeleton(request):

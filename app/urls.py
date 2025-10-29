@@ -16,6 +16,7 @@ from car_manage import views as car_views  # import views module with alias for 
 urlpatterns = [
     path('admin/', admin.site.urls), #Admin page
     path('index/', car_views.car_view, name='index'),  # Car view with explicit URL name for reverse() lookups
-    path('new_car/', car_views.new_car_view, name='new_car'),  # New Car view, form to add a new car to the page
+    #path('new_car/', car_views.new_car_view, name='new_car'),  #Not using ATM
+    path('new_car/', car_views.add_new_car, name='new_car'),  # # New Car view, form to add a new car to the page
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT) # Admin route and media content 
 

@@ -1,5 +1,6 @@
-{% extends "skeleton.html" %} {% block title %}AutoMarket — Find Your Next
-Car{%endblock %} {% block content %}
+{% extends "skeleton.html" %}
+{% block title %}AutoMarket — Find Your Next Car{% endblock %}
+{% block content %}
 <!-- Features -->
 <section class="py-5 bg-light">
   <div class="container">
@@ -50,7 +51,7 @@ Car{%endblock %} {% block content %}
         >
           <div class="position-relative">
             <img
-              src="{{ cars.photo.url |default:'https://source.unsplash.com/800x600/?car' }}"
+              src="{{ cars.photo.url|default:'https://source.unsplash.com/800x600/?car' }}"
               class="card-img-top"
               alt="{{ cars.model }}"
               loading="lazy"
