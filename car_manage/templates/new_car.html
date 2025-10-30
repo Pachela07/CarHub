@@ -6,7 +6,7 @@
       <div class="col-lg-7 col-md-9">
         <div class="card shadow-sm">
           <div class="card-body">
-            <h3 class="card-title mb-4 text-center">Contact Us</h3>
+            <h3 class="card-title mb-4 text-center">Add New Car</h3>
 
             {% if new_form.non_field_errors %}
             <div class="alert alert-danger" role="alert">
@@ -21,6 +21,7 @@
                 enctype="multipart/form-data"
                 novalidate
               >
+                <!---Dont forget to add this for security purposes -->
                 {% csrf_token %} {% for field in new_form %}
                 <div class="mb-3">
                   <label for="{{ field.id_for_label }}" class="form-label"
@@ -34,8 +35,12 @@
                 </div>
                 {% endfor %}
                 <div class="d-grid gap-2">
-                  <button type="submit" class="btn btn-primary btn-lg">
-                    Send
+                  <button
+                    type="submit"
+                    value="Register"
+                    class="btn btn-primary btn-lg"
+                  >
+                    Register
                   </button>
                 </div>
               </form>
