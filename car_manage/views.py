@@ -33,9 +33,8 @@ def add_new_car(request):
   if request.method == 'POST':
     new_form = CarForm(request.POST, request.FILES) # new form filled after the method has been checked, and accept files in the second request
     if new_form.is_valid(): # Check if the form is valid with the correct data
-      new_form.save() # Save it
-      return render(request,
-                  'new_car.html', { 'new_form' : new_form }) # Always return a response on POST so i dont get a wierd error
+      new_form.save() # Save it using the method created iin the forms.py
+      return redirect('index') # return to the main page
     else:
       # Return the same page with validation errors so the user can correct them
       return render(request, 'new_car.html', { 'new_form' : new_form })
@@ -49,6 +48,6 @@ def skeleton(request):
   return render(
     request,
     'skeleton.html'
-  ) # default page just for test purposes 
+  ) # default page 
   
   
