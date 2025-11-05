@@ -1,7 +1,7 @@
 ############### IMPORTS - ###################
 from django.shortcuts import render,redirect # Shortcut to return an HTML response
 from car_manage.models import Car # Use the ORM from Django to access the DB via class
-from car_manage.forms import CarForm # Import the predefined form
+from car_manage.forms import CarModelForm # Import the predefined form
 
 ############### USER VIEW - ###################
 
@@ -31,7 +31,7 @@ def new_car_view(request):
 def add_new_car(request):
   ## Check if the user is filled or not and apply the specific request
   if request.method == 'POST':
-    new_form = CarForm(request.POST, request.FILES) # new form filled after the method has been checked, and accept files in the second request
+    new_form = CarModelForm(request.POST, request.FILES) # new form filled after the method has been checked, and accept files in the second request
     if new_form.is_valid(): # Check if the form is valid with the correct data
       new_form.save() # Save it using the method created iin the forms.py
       return redirect('index') # return to the main page
@@ -39,7 +39,7 @@ def add_new_car(request):
       # Return the same page with validation errors so the user can correct them
       return render(request, 'new_car.html', { 'new_form' : new_form })
   else:
-    new_form = CarForm()
+    new_form = CarModelForm()
     return render(request, 'new_car.html', # Renders the page
               { 'new_form' : new_form}) # Loads the form with empty details
 

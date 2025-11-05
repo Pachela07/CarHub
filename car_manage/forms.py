@@ -1,8 +1,8 @@
 from django import forms  #Reusing tools already created on Django
 from car_manage.models import Brand,Car # needs to be imported to use the foreign key # And Car to use the model
 
-# Same info thats registered in the class
-class CarForm(forms.Form):
+#### Making the form but doing everything manually ####
+""" class CarForm(forms.Form):
     model = forms.CharField(
         max_length=40,
         label="Model",
@@ -56,4 +56,10 @@ class CarForm(forms.Form):
             
         )
         new_car.save() # Save it in the DB so we can use in the view
-        return new_car
+        return new_car """
+
+##### SAME THING BUT USING MODELFORM NOW CAUSE IM RTARDED AND DIDNT KNEW THIS :) ######
+class CarModelForm(forms.ModelForm):
+    class Meta:
+        model = Car ## Get the Class previously created
+        fields = '__all__' ## Get all the values from the form
