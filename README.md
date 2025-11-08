@@ -1,84 +1,117 @@
-# Car Manage (WIP)
+# Car Manage
 
-A Django project for managing cars, including models, brands, years, and values.  
-**Status:** Work in progress — not production ready.
+A simple Django app to manage cars, with brand linkage, model years, price validation, image uploads, and an admin interface.
 
-## Latest Updates (2025-10-27)
+Status: Work in progress (development only).
 
-- Introduced base template [skeleton.html](app/templates/skeleton.html) with:
-  - Navbar wired to `{% url 'index' %}` and `{% url 'new_car' %}`, search box using GET param `search`.
-  - Shared hero with blocks `hero_title` and `hero_subtitle`, site footer, Bootstrap, and static CSS.
-  - Safe JS helpers for card filtering, modal population, and contact form.
-- Refactored pages to extend the base:
-  - [index.html](car_manage/templates/index.html) extends the base and contains only page sections (features, inventory grid, contact form, details modal).
-  - [new_car.html](car_manage/templates/new_car.html) extends the base, sets custom hero text, and includes the add-car form.
-- Fixed template errors by:
-  - Adding `{% block hero %}` around the hero section and ensuring proper `{% endblock %}` placement in the base.
-  - Normalizing block tags in `new_car.html` to avoid “Invalid block tag” and “Unclosed tag” errors.
-- No database or URL name changes; existing names `index` and `new_car` remain. The search GET param is `search` and is consumed in [car_view()](car_manage/views.py:6).
+## Features
 
-## Project Structure
+- Car catalog with brand (FK), model, years, plate, value, and photo.
+- Search by model via query param `search` on the index page.
+- Add cars using a `ModelForm` with basic validations.
+- Image uploads saved under `media/car_manage/`.
+- Django admin for data management.
 
-.
-├── manage.py
-├── app/
-│ ├── settings.py
-│ ├── urls.py
-│ └── templates/
-│ └── skeleton.html # Base template
-└── car_manage/
-├── models.py
-├── views.py
-├── admin.py
-├── migrations/
-└── templates/
-├── index.html # Extends skeleton.html
-└── new_car.html # Extends skeleton.html
+## Tech Stack
 
-## Quick Start (Windows)
+- Python 3.12+/3.13+
+- Django 5.x
+- SQLite (default)
 
-1. **Create and activate a virtual environment:**
+## Project Layout
 
-   python -m venv .venv
-   .venv\Scripts\activate
+- `manage.py`
+- `app/`
+  - `settings.py`, `urls.py`, `templates/skeleton.html`
+- `car_manage/`
+  - `models.py`, `views.py`, `forms.py`, `admin.py`, `templates/`
 
-2. **Install dependencies:**
+## Setup
 
-   pip install -r requirements.txt
+1) Create and activate a virtualenv (Windows PowerShell)
 
-   - If `requirements.txt` is missing:
+```
+python -m venv .venv
+.venv\Scripts\activate
+```
 
-     pip install django
+2) Install dependencies
 
-3. **Apply migrations:**
+```
+pip install -r requirements.txt
+```
 
-   python manage.py makemigrations
-   python manage.py migrate
+3) Migrate the database
 
-4. **(Optional) Create a superuser:**
+```
+python manage.py makemigrations
+python manage.py migrate
+```
 
-   python manage.py createsuperuser
+4) Run the dev server
 
-5. **Run the development server:**
+```
+python manage.py runserver
+```
 
-   python manage.py runserver
+Open:
 
-## Next Steps
+- Index: http://127.0.0.1:8000/index/
+- Add car: http://127.0.0.1:8000/new_car/
+- Admin: http://127.0.0.1:8000/admin/
 
-- Implement CRUD views, templates, and API endpoints in `car_manage/views.py`.
-- Register the `Car` model in the admin interface (`car_manage/admin.py`).
-- Add unit tests in `car_manage/tests.py`.
-- Move secrets out of source control and set `DEBUG = False` for production in `app/settings.py`.
-- Consider adding CI, code linting, and a requirements lock file.
+## Admin Access
 
-## Contributing
+- Create a superuser:
 
-- Use feature branches and open pull requests for new features or fixes.
-- Include tests for all new behavior.
+```
+python manage.py createsuperuser
+```
 
-## Contact & Help
+- Forgot the admin password:
 
-- Built with Django.
-- For available commands, run:
+```
+python manage.py changepassword admin
+```
 
-  python manage.py help
+If you don’t remember the username, you can reset via shell:
+
+```
+python manage.py shell -c "from django.contrib.auth import get_user_model as g; U=g(); u=U.objects.first(); u.set_password('NewStrongPass123!'); u.save(); print('OK')"
+```
+
+## Media & Static
+
+- Media is enabled in `app/settings.py` (`MEDIA_ROOT` and `MEDIA_URL`) and served during development via `app/urls.py`.
+- Uploaded car photos are stored under `media/car_manage/`.
+
+## Development Notes
+
+- URLs are defined in `app/urls.py` as `index` and `new_car`.
+- Forms live in `car_manage/forms.py` and use `ModelForm`.
+- Templates:
+  - Base: `app/templates/skeleton.html`
+  - Pages: `car_manage/templates/index.html`, `car_manage/templates/new_car.html`
+
+## Troubleshooting
+
+- Pylance Optional comparison warning in `car_manage/forms.py`:
+  - Guard against `None` and compare with `Decimal` in `clean_value()`:
+    `if value is not None and value < Decimal('10000'):`
+
+- “Attribute get unknown for list[str]”:
+  - Ensure you call `.get()` on a dict-like (`request.GET`, `request.POST`, QueryDict, or dict), not a list. Example usage in `views.py`: `search = request.GET.get('search')`.
+
+## Common Commands
+
+- `python manage.py runserver` — start dev server
+- `python manage.py makemigrations && python manage.py migrate` — DB changes
+- `python manage.py createsuperuser` — admin user
+- `python manage.py changepassword <username>` — reset password
+
+## Production Checklist (later)
+
+- Set `DEBUG = False`, configure `ALLOWED_HOSTS`.
+- Generate a secure `SECRET_KEY` via environment variable.
+- Configure static files and a proper media server.
+
