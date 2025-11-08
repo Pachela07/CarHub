@@ -26,12 +26,13 @@ def new_car_view(request):
     return render(
     request,
     'new_car.html')
-    # if you forget the render the PATH will overload
+    #! if you forget the render the PATH will overload
     
 def add_new_car(request):
   ## Check if the user is filled or not and apply the specific request
   if request.method == 'POST':
     new_form = CarModelForm(request.POST, request.FILES) # new form filled after the method has been checked, and accept files in the second request
+    #?Added some custom validations for some fields
     if new_form.is_valid(): # Check if the form is valid with the correct data
       new_form.save() # Save it using the method created iin the forms.py
       return redirect('index') # return to the main page

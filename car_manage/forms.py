@@ -1,7 +1,8 @@
+from typing import Any
 from django import forms  #Reusing tools already created on Django
-from car_manage.models import Brand,Car # needs to be imported to use the foreign key # And Car to use the model
-
-#### Making the form but doing everything manually ####
+from car_manage.models import Car #*No need to use the foreign key anymore only the class. 
+from decimal import Decimal #!Need to use this import cause in my model im using value with DecimalField
+#### Making the form but doing everything manually #### !Do not use this anymore 
 """ class CarForm(forms.Form):
     model = forms.CharField(
         max_length=40,
@@ -59,7 +60,21 @@ from car_manage.models import Brand,Car # needs to be imported to use the foreig
         return new_car """
 
 ##### SAME THING BUT USING MODELFORM NOW CAUSE IM RTARDED AND DIDNT KNEW THIS :) ######
-class CarModelForm(forms.ModelForm):
+class CarModelForm(forms.ModelForm): 
     class Meta:
-        model = Car ## Get the Class previously created
-        fields = '__all__' ## Get all the values from the form
+        model = Car ##* Get the Class previously created
+        fields = '__all__' ##* Get all the values from the form
+        
+    ####VALIDATIONS####   
+    #! Validations must always use the 'clean_'
+    def clean_value(self):
+        value = self.cleaned_data.get('value') #? capture the value filled by the user 
+        if value != None and value < Decimal('5000'):
+            self.add_error('value', 'The mininum value for the cars should be at least 5.000€')
+        return value
+    
+    def clean_factory_year(self):
+        factory_year = self.cleaned_data.get('factory_year')
+        if factory_year !=None and factory_year < 1966:
+            self.add_error('factory year', "For safety, maintenance and price costs. We dont accept vehicles before the year reported")
+            return factory_year
