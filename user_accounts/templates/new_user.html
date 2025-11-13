@@ -1,0 +1,68 @@
+{%extends "skeleton.html" %} {% block extra_head %} {{ block.super }}
+<style>
+  body {
+    background: linear-gradient(160deg, #0b1220, #111b2e);
+    color: #e2e8f0;
+  }
+  main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 200px);
+    background: rgba(15, 23, 42, 0.15);
+  }
+
+  btn #new-user-form {
+    width: 100%;
+    max-width: 520px;
+    background: rgba(145, 130, 130, 0.98);
+    padding: 2.5rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.35);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+  }
+  #new-user-form p {
+    margin-bottom: 1.5rem;
+  }
+  #new-user-form label {
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    display: block;
+    color: #0f172a;
+  }
+  #new-user-form input {
+    width: 100%;
+    border: 1px solid rgba(15, 23, 42, 0.2);
+    border-radius: 0.85rem;
+    padding: 0.85rem 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  #new-user-form input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 0.15rem rgba(59, 130, 246, 0.35);
+  }
+  #new-user-form button[type="submit"],
+  #new-user-form input[type="submit"] {
+    background: linear-gradient(120deg, #1d4ed8, #3b82f6);
+    border: none;
+    color: #fff;
+    width: 100%;
+    padding: 0.9rem 1rem;
+    border-radius: 999px;
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 0.5rem;
+  }
+</style>
+{% endblock %} {% block content %}
+
+<form id="new-user-form" action="" method="post">
+  {% csrf_token %} {{ new_user_form}}
+
+  <input type="submit" value="Register" />
+</form>
+
+{% endblock %}

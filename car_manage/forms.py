@@ -70,11 +70,11 @@ class CarModelForm(forms.ModelForm):
     def clean_value(self):
         value = self.cleaned_data.get('value') #? capture the value filled by the user 
         if value != None and value < Decimal('5000'):
-            self.add_error('value', 'The mininum value for the cars should be at least 5.000€')
+            self.add_error('value', 'The mininum value for the cars should be at least 5000€')
         return value
     
     def clean_factory_year(self):
-        factory_year = self.cleaned_data.get('factory_year')
-        if factory_year !=None and factory_year < 1966:
-            self.add_error('factory year', "For safety, maintenance and price costs. We dont accept vehicles before the year reported")
-            return factory_year
+        factory_year = self.cleaned_data.get('factory_year') #? capture the value filled by the user
+        if factory_year !=None and factory_year < 1985:
+            self.add_error('factory_year', 'For safety, maintenance and price costs. We dont accept vehicles before the year reported')
+        return factory_year
