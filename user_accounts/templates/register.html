@@ -1,0 +1,179 @@
+{% extends "skeleton.html" %} {% block title %}AutoMarket - CreateAccount
+{%endblock %} {% block extra_head %} {{ block.super }}
+<style>
+  nav.navbar {
+    display: none !important;
+  }
+  .auth-hero {
+    background: radial-gradient(
+        circle at 20% 20%,
+        rgba(13, 110, 253, 0.28),
+        transparent 32%
+      ),
+      radial-gradient(
+        circle at 85% 15%,
+        rgba(14, 165, 233, 0.22),
+        transparent 30%
+      ),
+      linear-gradient(140deg, #0b1220, #0f1d33 55%, #0b1220);
+    color: #e7edf7;
+    position: relative;
+    overflow: hidden;
+  }
+  .auth-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.2), transparent 60%);
+  }
+  .auth-hero .copy {
+    position: relative;
+    z-index: 1;
+  }
+  .auth-shell {
+    background: linear-gradient(
+      180deg,
+      #0e1626,
+      #0d1729 45%,
+      #f8fafc 46%,
+      #ffffff
+    );
+  }
+  .auth-card {
+    border: none;
+    border-top: 4px solid #0d6efd;
+    box-shadow: 0 18px 50px rgba(15, 23, 42, 0.16);
+    border-radius: 1rem;
+    overflow: hidden;
+  }
+  .auth-card .card-body {
+    padding: 2.25rem;
+  }
+  .auth-chip {
+    background: rgba(13, 110, 253, 0.12);
+    color: #0d6efd;
+    border-radius: 999px;
+    padding: 0.45rem 0.85rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.8rem;
+  }
+  .auth-card .form-control {
+    background: #f8fafc;
+    border-color: #d9e2ef;
+    border-radius: 0.65rem;
+    padding: 0.9rem 1rem;
+  }
+  .auth-card .form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.12);
+  }
+  .auth-card .btn-primary {
+    background: linear-gradient(120deg, #0d6efd, #0a58ca);
+    border: none;
+    border-radius: 999px;
+    padding: 0.9rem 1rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .auth-card .btn-primary:focus,
+  .auth-card .btn-primary:hover {
+    background: linear-gradient(120deg, #0b5ed7, #0948b3);
+  }
+  .auth-meta {
+    color: #6b7280;
+  }
+</style>
+{% endblock %} {% block hero %}
+<header class="auth-hero py-5">
+  <div class="container py-4">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-xl-7 copy text-center text-lg-start">
+        <div class="auth-chip mb-3">
+          <span>Join</span>
+          <span class="text-white-50">AutoMarket</span>
+        </div>
+        <h1 class="display-6 fw-bold mb-3 text-white">Create your account</h1>
+        <p class="lead mb-0 text-white-50">
+          Save favorites, book test drives faster, and keep your deals in one
+          place.
+        </p>
+      </div>
+    </div>
+  </div>
+</header>
+{% endblock %} {% block content %}
+<section class="auth-shell py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 col-md-8">
+        <div class="card auth-card">
+          <div class="card-body">
+            <div class="mb-4 text-center">
+              <div class="auth-chip mb-2">New account</div>
+              <h3 class="fw-semibold mb-1">Let's get you set up</h3>
+              <p class="auth-meta mb-0">
+                A minute to fill in, lifetime access to your garage.
+              </p>
+            </div>
+
+            <form
+              id="new-user-form"
+              action=""
+              method="post"
+              novalidate
+              class="auth-form"
+            >
+              {% csrf_token %}
+              <div class="mb-3">
+                {{ register_new_user.username.label_tag }}
+                {{register_new_user.username }}
+                {{register_new_user.username.errors }}
+              </div>
+              <div class="mb-3">
+                {{ register_new_user.email.label_tag }}
+                {{register_new_user.email }} {{ register_new_user.email.errors}}
+              </div>
+              <div class="mb-3">
+                {{ register_new_user.password1.label_tag }}
+                {{register_new_user.password1 }}
+                {{register_new_user.password1.errors }}
+              </div>
+              <div class="mb-3">
+                {{ register_new_user.password2.label_tag }}
+                {{register_new_user.password2 }}
+                {{register_new_user.password2.errors }}
+              </div>
+              <div class="d-grid gap-2 mt-3">
+                <button type="submit" class="btn btn-primary btn-lg">
+                  Create account
+                </button>
+              </div>
+              <p class="auth-meta small text-center mt-3 mb-0">
+                By continuing you agree to our terms and privacy policy.
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %} {% block extra_js %} {{ block.super }}
+<script>
+  (function () {
+    document
+      .querySelectorAll(
+        "#new-user-form input[type='text'], #new-user-form input[type='email'], #new-user-form input[type='password']"
+      )
+      .forEach(function (el) {
+        el.classList.add("form-control", "form-control-lg");
+      });
+  })();
+</script>
+{% endblock %}

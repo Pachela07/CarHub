@@ -7,7 +7,7 @@ from django.conf import settings
 # Helper to serve static/media files during development
 from django.conf.urls.static import static
 from car_manage import views as car_views  # import views module with alias for clarity and maintainability
-from user_accounts import views as register_view # import the view related to the users 
+from user_accounts import views as register_views # import the view related to the users 
 
 
 
@@ -21,6 +21,8 @@ urlpatterns = [
     path('new_car/', car_views.add_new_car, name='new_car'),  ## New Car view, form to add a new car to the page
     
     #! This part of the paths takes care of the user related things in a new app
-    path('register/', register_view.register_view, name='new_user'),  
+    path('register/', register_views.new_register, name='register'),
+    path('login/', register_views.new_login, name='login'),
+    path('logout/', register_views.new_logout, name='logout'),
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT) # Admin route and media content 
 

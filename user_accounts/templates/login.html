@@ -1,29 +1,32 @@
-{% extends "skeleton.html" %} {% block title %}AutoMarket - Create
-Account{%endblock %} {% block extra_head %} {{ block.super }}
+{% extends "skeleton.html" %} {% block title %}AutoMarket - Login{% endblock %}
+{% block extra_head %} {{ block.super }}
 <style>
-  .auth-hero {
+  nav.navbar {
+    display: none !important;
+  }
+  .login-hero {
     background: radial-gradient(
-        circle at 20% 20%,
-        rgba(13, 110, 253, 0.28),
+        circle at 18% 20%,
+        rgba(13, 110, 253, 0.3),
         transparent 32%
       ),
       radial-gradient(
-        circle at 85% 15%,
-        rgba(14, 165, 233, 0.22),
+        circle at 82% 18%,
+        rgba(14, 165, 233, 0.18),
         transparent 30%
       ),
-      linear-gradient(140deg, #0b1220, #0f1d33 55%, #0b1220);
+      linear-gradient(145deg, #0b1220, #0f1d33 55%, #0b1220);
     color: #e7edf7;
     position: relative;
     overflow: hidden;
   }
-  .auth-hero::after {
+  .login-hero::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.2), transparent 60%);
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.25), transparent 65%);
   }
-  .auth-hero .copy {
+  .login-hero .copy {
     position: relative;
     z-index: 1;
   }
@@ -87,18 +90,17 @@ Account{%endblock %} {% block extra_head %} {{ block.super }}
   }
 </style>
 {% endblock %} {% block hero %}
-<header class="auth-hero py-5">
+<header class="login-hero py-5">
   <div class="container py-4">
     <div class="row justify-content-center">
       <div class="col-lg-8 col-xl-7 copy text-center text-lg-start">
         <div class="auth-chip mb-3">
-          <span>Join</span>
+          <span>Sign in</span>
           <span class="text-white-50">AutoMarket</span>
         </div>
-        <h1 class="display-6 fw-bold mb-3 text-white">Create your account</h1>
+        <h1 class="display-6 fw-bold mb-3 text-white">Welcome back</h1>
         <p class="lead mb-0 text-white-50">
-          Save favorites, book test drives faster, and keep your deals in one
-          place.
+          Pick up where you left off with saved cars, deals, and test drives.
         </p>
       </div>
     </div>
@@ -108,32 +110,41 @@ Account{%endblock %} {% block extra_head %} {{ block.super }}
 <section class="auth-shell py-5">
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-lg-6 col-md-8">
+      <div class="col-lg-5 col-md-7">
         <div class="card auth-card">
           <div class="card-body">
             <div class="mb-4 text-center">
-              <div class="auth-chip mb-2">New account</div>
-              <h3 class="fw-semibold mb-1">Let's get you set up</h3>
+              <div class="auth-chip mb-2">Login</div>
+              <h3 class="fw-semibold mb-1">Access your garage</h3>
               <p class="auth-meta mb-0">
-                A minute to fill in, lifetime access to your garage.
+                Use your account to manage favorites and offers.
               </p>
             </div>
 
-            <form
-              id="new-user-form"
-              action=""
-              method="post"
-              novalidate
-              class="auth-form"
-            >
-              {% csrf_token %} {{ register_new_user }}
+            <form id="login-form" action="" method="post" novalidate>
+              {% csrf_token %} {% if user_login.non_field_errors %}
+              <div class="alert alert-danger" role="alert">
+                {{ user_login.non_field_errors }}
+              </div>
+              {% endif %}
+              <div class="mb-3">
+                {{ user_login.username.label_tag }} {{ user_login.username }}
+                {{user_login.username.errors }}
+              </div>
+              <div class="mb-3">
+                {{ user_login.password.label_tag }} {{ user_login.password }}
+                {{user_login.password.errors }}
+              </div>
               <div class="d-grid gap-2 mt-3">
                 <button type="submit" class="btn btn-primary btn-lg">
-                  Create account
+                  Login
                 </button>
               </div>
               <p class="auth-meta small text-center mt-3 mb-0">
-                By continuing you agree to our terms and privacy policy.
+                New here?
+                <a class="fw-semibold" href="{% url 'register' %}"
+                  >Create an account</a
+                >
               </p>
             </form>
           </div>
@@ -147,7 +158,7 @@ Account{%endblock %} {% block extra_head %} {{ block.super }}
   (function () {
     document
       .querySelectorAll(
-        "#new-user-form input[type='text'], #new-user-form input[type='email'], #new-user-form input[type='password']"
+        "#login-form input[type='text'], #login-form input[type='password']"
       )
       .forEach(function (el) {
         el.classList.add("form-control", "form-control-lg");
