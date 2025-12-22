@@ -121,7 +121,7 @@
               </p>
             </div>
 
-            <form id="login-form" action="" method="post" novalidate>
+            <form id="login-form" action="" method="post">
               {% csrf_token %} {% if user_login.non_field_errors %}
               <div class="alert alert-danger" role="alert">
                 {{ user_login.non_field_errors }}

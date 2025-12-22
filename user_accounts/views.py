@@ -54,4 +54,4 @@ def new_login(request ) :
 ## Logout the user 
 def new_logout(request):
     logout(request)
-    return redirect('login')
+    return redirect('index')

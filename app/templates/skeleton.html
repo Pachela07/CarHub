@@ -53,6 +53,8 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navMain">
+          {% if user.is_authenticated %}
+
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
               <a
@@ -67,15 +69,17 @@
               >
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="{% url 'new_car' %}">Add Vehicle</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="{% url 'index' %}#contact">Contact</a>
             </li>
-            <!--  <li class="nav-item">
-              <a
-                class="nav-link {% if request.resolver_match.url_name == 'new_car' %}active{% endif %}"
-                href="{% url 'new_car' %}"
-                >Add Car</a
-              >
-            </li> -->
+            {% else %}
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <a class="nav-link" href="{% url 'login' %}">Login</a>
+              <a class="nav-link" href="{% url 'register' %}">Register</a>
+            </ul>
+            {% endif %}
           </ul>
 
           <!-- Navbar search (works client-side and can submit to server filtering) -->
